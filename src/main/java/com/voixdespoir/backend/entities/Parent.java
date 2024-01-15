@@ -14,15 +14,21 @@ public class Parent extends Person{
     private ParentType parentType;
     @OneToOne(mappedBy = "parent")
     private SearchRequest searchRequest;
+    @OneToOne(mappedBy = "parent")
+    private Adoption adoption;
 
     public Parent() {
         super();
     }
 
 
-    public Parent(String firstName, String middleName, String lastName, Gender gender, ParentType parentType) {
+    public Parent(String firstName, String middleName, String lastName, Gender gender, Long id,
+                  ParentType parentType, SearchRequest searchRequest, Adoption adoption) {
         super(firstName, middleName, lastName, gender);
+        this.id = id;
         this.parentType = parentType;
+        this.searchRequest = searchRequest;
+        this.adoption = adoption;
     }
 
     public Long getId() {
@@ -47,6 +53,14 @@ public class Parent extends Person{
 
     public void setSearchRequest(SearchRequest searchRequest) {
         this.searchRequest = searchRequest;
+    }
+
+    public Adoption getAdoption() {
+        return adoption;
+    }
+
+    public void setAdoption(Adoption adoption) {
+        this.adoption = adoption;
     }
 
     @Override

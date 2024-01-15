@@ -5,6 +5,8 @@ import com.voixdespoir.backend.enums.RequestType;
 import com.voixdespoir.backend.enums.Status;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "search_request")
 public class SearchRequest {
@@ -17,22 +19,30 @@ public class SearchRequest {
     private Relationship relationship;
     @Column
     private Status status;
+    @Column
+    private String notes;
+
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Parent parent;
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "child_id", referencedColumnName = "id")
     private Child child;
+    @OneToMany(mappedBy = "searchRequest")
+    private List<Document> document;
 
     public SearchRequest() {
     }
 
-    public SearchRequest(RequestType requestType, Relationship relationship, Status status, Parent parent, Child child) {
+    public SearchRequest(RequestType requestType, Relationship relationship, Status status,
+                         String notes, Parent parent, Child child, List<Document> document) {
         this.requestType = requestType;
         this.relationship = relationship;
         this.status = status;
+        this.notes = notes;
         this.parent = parent;
         this.child = child;
+        this.document = document;
     }
 
     public Long getId() {
@@ -81,5 +91,21 @@ public class SearchRequest {
 
     public void setChild(Child child) {
         this.child = child;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public List<Document> getDocument() {
+        return document;
+    }
+
+    public void setDocument(List<Document> document) {
+        this.document = document;
     }
 }
